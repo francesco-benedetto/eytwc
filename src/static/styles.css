@@ -169,6 +169,11 @@ section h3 {
   border-color: var(--border-focus);
 }
 
+.activity-card.shared-activity {
+  border-color: var(--secondary);
+  box-shadow: 0 0 0 2px rgba(255, 111, 0, 0.15);
+}
+
 .activity-card h4 {
   margin-bottom: 8px;
   color: var(--primary);
@@ -236,6 +241,59 @@ section h3 {
 
 .capacity-available .capacity-bar-fill {
   background-color: var(--success);
+}
+
+.share-actions {
+  margin: 8px 0;
+  padding-top: 8px;
+  border-top: 1px solid var(--border-light);
+}
+
+.share-label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.share-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.share-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 30px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.share-button:hover {
+  opacity: 0.9;
+}
+
+.share-native {
+  background-color: var(--primary);
+}
+
+.share-whatsapp {
+  background-color: #25d366;
+}
+
+.share-facebook {
+  background-color: #1877f2;
+}
+
+.share-copy {
+  background-color: var(--text-secondary);
 }
 
 /* Participants list */
