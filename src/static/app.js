@@ -295,10 +295,26 @@ document.addEventListener("DOMContentLoaded", () => {
           .padStart(2, "0")} ${period}`;
       };
 
-      const startTime = formatTime(details.schedule_details.start_time);
-      const endTime = formatTime(details.schedule_details.end_time);
+      const startTime = details.schedule_details.start_time
+        ? formatTime(details.schedule_details.start_time)
+        : "";
+      const endTime = details.schedule_details.end_time
+        ? formatTime(details.schedule_details.end_time)
+        : "";
 
-      return `${days}, ${startTime} - ${endTime}`;
+      if (startTime && endTime) {
+        return `${days}, ${startTime} - ${endTime}`;
+      }
+
+      if (startTime) {
+        return `${days}, ${startTime}`;
+      }
+
+      if (endTime) {
+        return `${days}, until ${endTime}`;
+      }
+
+      return days;
     }
 
     // Fallback to the string format if schedule_details isn't available
@@ -353,7 +369,6 @@ document.addEventListener("DOMContentLoaded", () => {
   function buildShareButtons(activityName, details) {
     const shareUrl = getActivityShareUrl(activityName);
     const shareText = getActivityShareText(activityName, details);
-    const encodedText = encodeURIComponent(shareText);
     const encodedUrl = encodeURIComponent(shareUrl);
     const shareButtons = document.createElement("div");
 
