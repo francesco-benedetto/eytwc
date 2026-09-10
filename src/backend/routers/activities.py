@@ -41,10 +41,15 @@ def get_activities(
         query["schedule_details.end_time"] = {"$lte": end_time}
 
     if difficulty_level:
+        valid_difficulty_levels = {"beginner", "intermediate", "advanced", "all_levels"}
+        if difficulty_level not in valid_difficulty_levels:
+            raise HTTPException(status_code=400, detail="Invalid difficulty level filter")
+
         if difficulty_level == "all_levels":
             query["$or"] = [
                 {"difficulty_level": {"$exists": False}},
-                {"difficulty_level": None}
+                {"difficulty_level": None},
+                {"difficulty_level": ""}
             ]
         else:
             query["difficulty_level"] = difficulty_level
