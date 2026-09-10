@@ -100,11 +100,17 @@ document.addEventListener("DOMContentLoaded", () => {
     applyTheme(initialTheme);
 
     if (themeMediaQuery) {
-      themeMediaQuery.addEventListener("change", (event) => {
+      const handleSystemThemeChange = (event) => {
         if (!hasStoredThemePreference) {
           applyTheme(event.matches ? "dark" : "light");
         }
-      });
+      };
+
+      if (typeof themeMediaQuery.addEventListener === "function") {
+        themeMediaQuery.addEventListener("change", handleSystemThemeChange);
+      } else if (typeof themeMediaQuery.addListener === "function") {
+        themeMediaQuery.addListener(handleSystemThemeChange);
+      }
     }
   }
 
