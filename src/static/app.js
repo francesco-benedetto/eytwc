@@ -87,9 +87,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function initializeTheme() {
     const savedTheme = getStoredTheme();
-    const preferredDarkScheme = window.matchMedia(
-      "(prefers-color-scheme: dark)"
-    ).matches;
+    const preferredDarkScheme =
+      typeof window.matchMedia === "function" &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches;
     const initialTheme = savedTheme || (preferredDarkScheme ? "dark" : "light");
 
     applyTheme(initialTheme);
