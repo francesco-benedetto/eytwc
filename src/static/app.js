@@ -50,6 +50,22 @@ document.addEventListener("DOMContentLoaded", () => {
   // Theme settings
   const themeStorageKey = "theme";
 
+  function getStoredTheme() {
+    try {
+      return localStorage.getItem(themeStorageKey);
+    } catch (error) {
+      return null;
+    }
+  }
+
+  function setStoredTheme(theme) {
+    try {
+      localStorage.setItem(themeStorageKey, theme);
+    } catch (error) {
+      // Ignore storage failures and keep theme in-memory
+    }
+  }
+
   function updateThemeToggleButton(theme) {
     if (!themeToggle || !themeToggleIcon) {
       return;
@@ -70,7 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function initializeTheme() {
-    const savedTheme = localStorage.getItem(themeStorageKey);
+    const savedTheme = getStoredTheme();
     const preferredDarkScheme = window.matchMedia(
       "(prefers-color-scheme: dark)"
     ).matches;
@@ -82,7 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function toggleTheme() {
     const nextTheme = currentTheme === "dark" ? "light" : "dark";
     applyTheme(nextTheme);
-    localStorage.setItem(themeStorageKey, nextTheme);
+    setStoredTheme(nextTheme);
   }
 
   // Time range mappings for the dropdown
