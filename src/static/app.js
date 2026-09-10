@@ -93,9 +93,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function initializeTheme() {
     const savedTheme = getStoredTheme();
-    hasStoredThemePreference = savedTheme === "dark" || savedTheme === "light";
+    const validatedSavedTheme =
+      savedTheme === "dark" || savedTheme === "light" ? savedTheme : null;
+    hasStoredThemePreference = Boolean(validatedSavedTheme);
     const preferredDarkScheme = themeMediaQuery ? themeMediaQuery.matches : false;
-    const initialTheme = savedTheme || (preferredDarkScheme ? "dark" : "light");
+    const initialTheme =
+      validatedSavedTheme || (preferredDarkScheme ? "dark" : "light");
 
     applyTheme(initialTheme);
 
