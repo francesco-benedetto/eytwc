@@ -46,6 +46,11 @@ document.addEventListener("DOMContentLoaded", () => {
   // Authentication state
   let currentUser = null;
   let currentTheme = "light";
+  let hasStoredThemePreference = false;
+  const themeMediaQuery =
+    typeof window.matchMedia === "function"
+      ? window.matchMedia("(prefers-color-scheme: dark)")
+      : null;
 
   // Theme settings
   const themeStorageKey = "theme";
@@ -73,6 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const isDarkTheme = theme === "dark";
     themeToggleIcon.textContent = isDarkTheme ? "☀️" : "🌙";
+    themeToggle.setAttribute("aria-pressed", isDarkTheme ? "true" : "false");
     themeToggle.setAttribute(
       "aria-label",
       isDarkTheme ? "Switch to light mode" : "Switch to dark mode"
@@ -87,17 +93,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function initializeTheme() {
     const savedTheme = getStoredTheme();
-    const preferredDarkScheme =
-      typeof window.matchMedia === "function" &&
-      window.matchMedia("(prefers-color-scheme: dark)").matches;
+    hasStoredThemePreference = savedTheme === "dark" || savedTheme === "light";
+    const preferredDarkScheme = themeMediaQuery ? themeMediaQuery.matches : false;
     const initialTheme = savedTheme || (preferredDarkScheme ? "dark" : "light");
 
     applyTheme(initialTheme);
+
+    if (themeMediaQuery) {
+      themeMediaQuery.addEventListener("change", (event) => {
+        if (!hasStoredThemePreference) {
+          applyTheme(event.matches ? "dark" : "light");
+        }
+      });
+    }
   }
 
   function toggleTheme() {
     const nextTheme = currentTheme === "dark" ? "light" : "dark";
     applyTheme(nextTheme);
+    hasStoredThemePreference = true;
     setStoredTheme(nextTheme);
   }
 
